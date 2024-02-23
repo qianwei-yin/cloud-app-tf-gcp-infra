@@ -30,3 +30,79 @@ resource "google_compute_route" "custom_route" {
   dest_range       = var.custom_route_dest_range
   next_hop_gateway = var.custom_route_next_hop_gateway
 }
+
+resource "google_compute_firewall" "firewall_rules" {
+  count   = length(var.vpc_list)
+  name    = "firewall${count.index}"
+  network = google_compute_network.custom_vpc_tf[count.index].name
+  allow {
+    protocol = "icmp"
+  }
+  allow {
+    protocol = "tcp"
+    ports    = var.allow_tcp_ports
+  }
+  source_ranges = var.firewall_source_ranges
+}
+
+
+resource "google_compute_instance" "instance-from-custom-image" {
+  count = length(var.vpc_list)
+  boot_disk {
+    auto_delete = true
+    device_name = "${var.vm_instance_name}-${count.index == 0 ? "" : count.index}"
+
+    initialize_params {
+      image = "projects/${var.project_id}/global/images/csye6225-qy-${var.custom_image_created_at}"
+      size  = var.boot_disk_size
+      type  = var.boot_disk_type
+    }
+
+    mode = "READ_WRITE"
+  }
+
+  # can_ip_forward      = false
+  # deletion_protection = false
+  # enable_display = false
+
+  # labels = {
+  #   goog-ec-src = "vm_add-tf"
+  # }
+
+  machine_type = var.vm_instance_machine_type
+  name         = "${var.vm_instance_name}${count.index == 0 ? "" : count.index}"
+
+  network_interface {
+    access_config {
+      network_tier = "PREMIUM"
+    }
+
+    queue_count = 0
+    stack_type  = "IPV4_ONLY"
+    # subnetwork  = "projects/${var.project_id}/regions/us-west1/subnetworks/webapp${count.index == 0 ? "" : count.index}"
+    subnetwork = google_compute_subnetwork.subnet_webapp[count.index].id
+  }
+
+  scheduling {
+    automatic_restart   = true
+    on_host_maintenance = "MIGRATE"
+    preemptible         = false
+    provisioning_model  = "STANDARD"
+  }
+
+  service_account {
+    email = "packer@learn-terraform-gcp-414401.iam.gserviceaccount.com"
+    # scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
+  }
+
+  shielded_instance_config {
+    enable_integrity_monitoring = true
+    enable_secure_boot          = false
+    enable_vtpm                 = true
+  }
+
+  tags                      = ["http-server"]
+  zone                      = "us-west1-b"
+  allow_stopping_for_update = true
+}

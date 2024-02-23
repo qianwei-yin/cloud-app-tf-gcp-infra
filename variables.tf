@@ -41,3 +41,31 @@ variable "vpc_description" {
 variable "custom_route_next_hop_gateway" {
   type = string
 }
+
+variable "allow_tcp_ports" {
+  type = list(string)
+}
+
+variable "firewall_source_ranges" {
+  type = list(string)
+}
+
+variable "custom_image_created_at" {
+  type = string
+}
+
+variable "boot_disk_size" {
+  type = number
+}
+
+variable "boot_disk_type" {
+  type = string
+}
+
+variable "vm_instance_name" {
+  type = string
+}
+
+variable "vm_instance_machine_type" {
+  type = string
+}
