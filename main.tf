@@ -91,9 +91,8 @@ resource "google_compute_instance" "instance-from-custom-image" {
   }
 
   service_account {
-    email = "packer@learn-terraform-gcp-414401.iam.gserviceaccount.com"
-    # scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-    scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
+    email  = var.service_account_email
+    scopes = var.service_account_scopes
   }
 
   shielded_instance_config {
@@ -103,6 +102,6 @@ resource "google_compute_instance" "instance-from-custom-image" {
   }
 
   tags                      = ["http-server"]
-  zone                      = "us-west1-b"
+  zone                      = var.zone
   allow_stopping_for_update = true
 }

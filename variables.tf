@@ -69,3 +69,15 @@ variable "vm_instance_name" {
 variable "vm_instance_machine_type" {
   type = string
 }
+
+variable "zone" {
+  type = string
+}
+
+variable "service_account_email" {
+  type = string
+}
+
+variable "service_account_scopes" {
+  type = list(string)
+}
