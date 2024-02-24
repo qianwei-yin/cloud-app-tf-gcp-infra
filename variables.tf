@@ -46,7 +46,15 @@ variable "allow_tcp_ports" {
   type = list(string)
 }
 
+variable "allow_ssh_tcp_ports" {
+  type = list(string)
+}
+
 variable "firewall_source_ranges" {
+  type = list(string)
+}
+
+variable "firewall_allow_ssh_source_ranges" {
   type = list(string)
 }
 

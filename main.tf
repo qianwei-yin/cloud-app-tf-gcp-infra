@@ -45,6 +45,17 @@ resource "google_compute_firewall" "firewall_rules" {
   source_ranges = var.firewall_source_ranges
 }
 
+resource "google_compute_firewall" "firewall_rules_allow_ssh" {
+  count   = length(var.vpc_list)
+  name    = "firewall-allow-ssh${count.index}"
+  network = google_compute_network.custom_vpc_tf[count.index].name
+  allow {
+    protocol = "tcp"
+    ports    = var.allow_ssh_tcp_ports
+  }
+  source_ranges = var.firewall_allow_ssh_source_ranges
+}
+
 
 resource "google_compute_instance" "instance-from-custom-image" {
   count = length(var.vpc_list)
