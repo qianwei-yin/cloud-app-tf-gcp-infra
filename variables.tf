@@ -252,6 +252,10 @@ variable "service_account_scopes" {
   type = list(string)
 }
 
+variable "monitor_service_account_scopes" {
+  type = list(string)
+}
+
 variable "vm_instance_enable_integrity_monitoring" {
   type = bool
 }
@@ -270,4 +274,21 @@ variable "vm_instance_tags" {
 
 variable "vm_instance_allow_stopping_for_update" {
   type = bool
+}
+
+# DNS variables
+variable "dns_record_name_prefix" {
+  type = string
+}
+
+variable "dns_managed_zone_name" {
+  type = string
+}
+
+variable "dns_record_type" {
+  type = string
+}
+
+variable "dns_record_ttl" {
+  type = number
 }

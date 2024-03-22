@@ -1,4 +1,4 @@
-resource "google_compute_instance" "instance-from-custom-image" {
+resource "google_compute_instance" "instance_from_custom_image" {
   count = length(var.vpc_list)
 
   boot_disk {
@@ -34,9 +34,14 @@ resource "google_compute_instance" "instance-from-custom-image" {
     provisioning_model  = var.vm_instance_provisioning_model
   }
 
+  # service_account {
+  #   email  = "${var.service_account_email_local_part}@${var.project_id}.iam.gserviceaccount.com"
+  #   scopes = var.service_account_scopes
+  # }
+
   service_account {
-    email  = "${var.service_account_email_local_part}@${var.project_id}.iam.gserviceaccount.com"
-    scopes = var.service_account_scopes
+    email  = google_service_account.monitor_service_account[count.index].email
+    scopes = var.monitor_service_account_scopes
   }
 
   shielded_instance_config {
