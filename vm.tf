@@ -63,6 +63,9 @@ resource "google_compute_instance" "instance_from_custom_image" {
       sudo echo "POSTGRES_USERNAME=${google_sql_user.db_user[count.index].name}" >> /home/csye6225/myapp/.env
       sudo echo "POSTGRES_DATABASE=${google_sql_database.database[count.index].name}" >> /home/csye6225/myapp/.env
       sudo echo "POSTGRES_HOST=${google_sql_database_instance.postgres_instance[count.index].private_ip_address}" >> /home/csye6225/myapp/.env
+      sudo echo "PUBSUB_INTERACTION=true" >> /home/csye6225/myapp/.env
+      sudo echo "GCP_PROJECT_ID=${var.project_id}" >> /home/csye6225/myapp/.env
+      sudo echo "PUBSUB_TOPIC_NAME=${google_pubsub_topic.verify_email_topic[count.index].name}" >> /home/csye6225/myapp/.env
 
       sudo chown -R "csye6225":"csye6225" "/home/csye6225/myapp/.env"
       sudo chmod -R 755 /home/csye6225/myapp/.env

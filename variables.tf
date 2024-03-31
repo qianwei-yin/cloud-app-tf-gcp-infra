@@ -118,6 +118,34 @@ variable "private_vpc_connection_deletion_policy" {
   type = string
 }
 
+variable "peering_routes_import_custom_routes" {
+  type = bool
+}
+
+variable "peering_routes_export_custom_routes" {
+  type = bool
+}
+
+variable "serverless_vpc_connector_name_prefix" {
+  type = string
+}
+
+variable "serverless_vpc_connector_ip_cidr_range" {
+  type = string
+}
+
+variable "serverless_vpc_connector_machine_type" {
+  type = string
+}
+
+variable "serverless_vpc_connector_min_instances" {
+  type = number
+}
+
+variable "serverless_vpc_connector_max_instances" {
+  type = number
+}
+
 # Database variables
 variable "random_db_name_suffix_byte_length" {
   type = number
@@ -291,4 +319,108 @@ variable "dns_record_type" {
 
 variable "dns_record_ttl" {
   type = number
+}
+
+# Pub/Sub variables
+variable "pubsub_topic_name_prefix" {
+  type = string
+}
+
+variable "pubsub_topic_message_retention_duration" {
+  type = string
+}
+
+variable "pubsub_subscription_name_prefix" {
+  type = string
+}
+
+variable "pubsub_subscription_ack_deadline_seconds" {
+  type = number
+}
+
+variable "pubsub_subscription_message_retention_duration" {
+  type = string
+}
+
+variable "pubsub_subscription_x_goog_version" {
+  type = string
+}
+
+# Cloud Function variables
+variable "mailchimp_api_key" {
+  type = string
+}
+
+variable "storage_bucket_name_prefix" {
+  type = string
+}
+
+variable "storage_bucket_object_name_prefix" {
+  type = string
+}
+
+variable "storage_bucket_object_cache_control" {
+  type = string
+}
+
+variable "cloud_function_name_prefix" {
+  type = string
+}
+
+variable "cloud_function_runtime" {
+  type = string
+}
+
+variable "cloud_function_entry_point" {
+  type = string
+}
+
+variable "cloud_function_max_instance_count" {
+  type = number
+}
+
+variable "cloud_function_min_instance_count" {
+  type = number
+}
+
+variable "cloud_function_available_memory" {
+  type = string
+}
+
+variable "cloud_function_timeout_seconds" {
+  type = number
+}
+
+variable "cloud_function_ingress_settings" {
+  type = string
+}
+
+variable "cloud_function_all_traffic_on_latest_revision" {
+  type = bool
+}
+
+variable "cloud_function_trigger_event_type" {
+  type = string
+}
+
+variable "cloud_function_retry_policy" {
+  type = string
+}
+
+variable "cloud_function_sa_id_prefix" {
+  type = string
+}
+
+variable "cloud_function_display_name" {
+  type = string
+}
+
+
+
+
+
+
+# GCS variables
+variable "archive_name" {
+  type = string
 }

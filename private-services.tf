@@ -16,3 +16,22 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   reserved_peering_ranges = [google_compute_global_address.private_ip_address[count.index].name]
   deletion_policy         = var.private_vpc_connection_deletion_policy
 }
+resource "google_compute_network_peering_routes_config" "peering_routes" {
+  count   = length(var.vpc_list)
+  peering = google_service_networking_connection.private_vpc_connection[count.index].peering
+  network = google_compute_network.vpc[count.index].name
+
+  import_custom_routes = var.peering_routes_import_custom_routes
+  export_custom_routes = var.peering_routes_export_custom_routes
+}
+
+resource "google_vpc_access_connector" "serverless_vpc_connector" {
+  count         = length(var.vpc_list)
+  name          = "${var.serverless_vpc_connector_name_prefix}${count.index}"
+  region        = var.region
+  ip_cidr_range = var.serverless_vpc_connector_ip_cidr_range
+  network       = google_compute_network.vpc[count.index].name
+  machine_type  = var.serverless_vpc_connector_machine_type
+  min_instances = var.serverless_vpc_connector_min_instances
+  max_instances = var.serverless_vpc_connector_max_instances
+}
