@@ -35,3 +35,13 @@ resource "google_compute_route" "custom_route" {
   dest_range       = var.custom_route_dest_range
   next_hop_gateway = var.custom_route_next_hop_gateway
 }
+
+resource "google_compute_subnetwork" "subnet_proxy_only" {
+  count         = length(var.vpc_list)
+  name          = "${var.proxy_only_subnet_name_prefix}${count.index}"
+  ip_cidr_range = var.proxy_only_ip_cidr_range
+  network       = google_compute_network.vpc[count.index].name
+  purpose       = var.proxy_only_subnet_purpose
+  region        = var.region
+  role          = var.proxy_only_subnet_role
+}

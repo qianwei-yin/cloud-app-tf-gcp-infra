@@ -12,5 +12,9 @@ resource "google_dns_record_set" "webapp" {
 
   managed_zone = data.google_dns_managed_zone.env_dns_zone.name
 
-  rrdatas = [google_compute_instance.instance_from_custom_image[count.index].network_interface[0].access_config[0].nat_ip]
+  # set to vm's ip address
+  # rrdatas = [google_compute_instance.instance_from_custom_image[count.index].network_interface[0].access_config[0].nat_ip]
+
+  # set to load balancer's ip address
+  rrdatas = [google_compute_global_address.lb_external_ip_address[count.index].address]
 }

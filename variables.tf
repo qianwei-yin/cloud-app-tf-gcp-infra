@@ -40,11 +40,19 @@ variable "db_subnet_name_prefix" {
   type = string
 }
 
+variable "proxy_only_subnet_name_prefix" {
+  type = string
+}
+
 variable "webapp_ip_cidr_range" {
   type = string
 }
 
 variable "db_ip_cidr_range" {
+  type = string
+}
+
+variable "proxy_only_ip_cidr_range" {
   type = string
 }
 
@@ -57,6 +65,14 @@ variable "db_private_ip_google_access" {
 }
 
 variable "custom_route_name_prefix" {
+  type = string
+}
+
+variable "proxy_only_subnet_purpose" {
+  type = string
+}
+
+variable "proxy_only_subnet_role" {
   type = string
 }
 
@@ -91,6 +107,26 @@ variable "ssh_allow_tcp_ports" {
 
 variable "ssh_firewall_source_ranges" {
   type = list(string)
+}
+
+variable "allow_proxy_firewall_name_prefix" {
+  type = string
+}
+
+variable "allow_proxy_allow_tcp_ports" {
+  type = list(string)
+}
+
+variable "allow_health_check_firewall_name_prefix" {
+  type = string
+}
+
+variable "allow_health_check_firewall_source_ranges" {
+  type = list(string)
+}
+
+variable "firewall_target_tag" {
+  type = string
 }
 
 # Private Services Access variables
@@ -304,6 +340,157 @@ variable "vm_instance_allow_stopping_for_update" {
   type = bool
 }
 
+variable "vm_instance_tag" {
+  type = string
+}
+
+variable "vm_instances_template_name_prefix" {
+  type = string
+}
+
+variable "vm_instances_template_disk_is_for_boot" {
+  type = bool
+}
+
+# VM instance group manager variables
+variable "vm_instance_group_manager_name_prefix" {
+  type = string
+}
+
+variable "vm_instance_group_manager_base_instance_name" {
+  type = string
+}
+
+variable "vm_instance_group_manager_initial_delay_sec" {
+  type = number
+}
+
+variable "vm_instance_group_manager_named_port_name" {
+  type = string
+}
+
+variable "vm_instance_group_manager_named_port_port" {
+  type = number
+}
+
+# VM autoscaler variables
+variable "vm_autoscaler_name_prefix" {
+  type = string
+}
+
+variable "vm_autoscaler_max_replicas" {
+  type = number
+}
+
+variable "vm_autoscaler_min_replicas" {
+  type = number
+}
+
+variable "vm_autoscaler_cooldown_period" {
+  type = number
+}
+
+variable "vm_autoscaler_cpu_utilization_target" {
+  type = number
+}
+
+# Load balancer variables
+variable "lb_external_ip_address_name_prefix" {
+  type = string
+}
+
+variable "lb_external_ip_address_type" {
+  type = string
+}
+
+variable "lb_health_check_name_prefix" {
+  type = string
+}
+
+variable "lb_health_check_timeout_sec" {
+  type = number
+}
+
+variable "lb_health_check_check_interval_sec" {
+  type = number
+}
+
+variable "lb_health_check_healthy_threshold" {
+  type = number
+}
+
+variable "lb_health_check_unhealthy_threshold" {
+  type = number
+}
+
+variable "lb_health_check_port" {
+  type = number
+}
+
+variable "lb_health_check_port_specification" {
+  type = string
+}
+
+variable "lb_health_check_request_path" {
+  type = string
+}
+
+variable "lb_health_check_log_config_enabled" {
+  type = bool
+}
+
+variable "lb_backend_service_name_prefix" {
+  type = string
+}
+
+variable "lb_backend_service_scheme" {
+  type = string
+}
+
+variable "lb_backend_service_protocol" {
+  type = string
+}
+
+variable "lb_backend_service_session_affinity" {
+  type = string
+}
+
+variable "lb_backend_service_timeout_sec" {
+  type = number
+}
+
+variable "lb_backend_service_balancing_mode" {
+  type = string
+}
+
+variable "lb_backend_service_capacity_scaler" {
+  type = number
+}
+
+variable "lb_url_map_name_prefix" {
+  type = string
+}
+
+variable "lb_proxy_name_prefix" {
+  type = string
+}
+
+variable "lb_forwarding_rule_name_prefix" {
+  type = string
+}
+
+variable "lb_forwarding_rule_ip_protocol" {
+  type = string
+}
+
+variable "lb_forwarding_rule_load_balancing_scheme" {
+  type = string
+}
+
+variable "lb_forwarding_rule_port_range" {
+  type = string
+}
+
 # DNS variables
 variable "dns_record_name_prefix" {
   type = string
@@ -415,7 +602,10 @@ variable "cloud_function_display_name" {
   type = string
 }
 
-
+# SSL variables
+variable "ssl_certificate_name" {
+  type = string
+}
 
 
 
