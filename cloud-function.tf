@@ -55,10 +55,27 @@ resource "google_project_iam_member" "artifactregistry-reader" {
   depends_on = [google_project_iam_member.event-receiving]
 }
 */
+data "google_storage_project_service_account" "gcs_account" {
+}
+
+resource "google_kms_crypto_key_iam_binding" "kms_crypto_key_iam_binding" {
+  count         = length(var.vpc_list)
+  crypto_key_id = google_kms_crypto_key.kms_crypto_key_bucket[count.index].id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = ["serviceAccount:${data.google_storage_project_service_account.gcs_account.email_address}"]
+}
+
 resource "google_storage_bucket" "cloud_function_bucket" {
   count    = length(var.vpc_list)
   name     = "${var.storage_bucket_name_prefix}${count.index}"
   location = var.region
+
+  encryption {
+    default_kms_key_name = google_kms_crypto_key.kms_crypto_key_bucket[count.index].id
+  }
+
+  depends_on = [google_kms_crypto_key_iam_binding.kms_crypto_key_iam_binding]
 }
 
 resource "google_storage_bucket_object" "cloud_function_archive" {

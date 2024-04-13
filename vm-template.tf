@@ -22,6 +22,9 @@ resource "google_compute_instance_template" "vm_instances_template" {
     mode         = var.boot_disk_mode
     disk_size_gb = var.boot_disk_size
     disk_type    = var.boot_disk_type
+    disk_encryption_key {
+      kms_key_self_link = google_kms_crypto_key.kms_crypto_key_vm[count.index].id
+    }
   }
 
   network_interface {

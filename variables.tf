@@ -607,7 +607,34 @@ variable "ssl_certificate_name" {
   type = string
 }
 
+# CMEK variables
+variable "kms_key_ring_name_suffix_length" {
+  type = number
+}
 
+variable "compute_system_service_account_email" {
+  type = string
+}
+
+variable "cmek_rotation_period" {
+  type = string
+}
+
+variable "kms_key_ring_name_prefix" {
+  type = string
+}
+
+variable "kms_crypto_key_vm_name_prefix" {
+  type = string
+}
+
+variable "kms_crypto_key_bucket_name_prefix" {
+  type = string
+}
+
+variable "kms_crypto_key_db_name_prefix" {
+  type = string
+}
 
 
 # GCS variables

@@ -16,6 +16,8 @@ resource "google_sql_database_instance" "postgres_instance" {
   database_version    = var.db_instance_version
   deletion_protection = var.db_instance_deletion_protection
 
+  encryption_key_name = google_kms_crypto_key.kms_crypto_key_db[count.index].id
+
   # For private IP instance setup, note that the google_sql_database_instance does not actually interpolate values from google_service_networking_connection. You must explicitly add a depends_on reference.
   depends_on = [google_service_networking_connection.private_vpc_connection]
 
